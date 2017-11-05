@@ -1,0 +1,711 @@
+{% load cms_tags staticfiles sekizai_tags menu_tags %}
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<script src="{{ STATIC_URL }}jquery-3.0.0.min.js"></script>
+	<title>{% block title %}Disobey{% endblock %}</title>
+
+<link rel="apple-touch-icon" sizes="57x57" href="{{ STATIC_URL }}ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="{{ STATIC_URL }}ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="{{ STATIC_URL }}ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ STATIC_URL }}ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ STATIC_URL }}ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ STATIC_URL }}ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ STATIC_URL }}ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="{{ STATIC_URL }}ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ STATIC_URL }}ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ STATIC_URL }}ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ STATIC_URL }}ico/favicon-16x16.png">
+<link rel="manifest" href="{{ STATIC_URL }}ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="{{ STATIC_URL }}ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="icon" type="image/x-icon" href="http://example.com/favicon.ico" />
+<link rel="icon" type="image/png" href="http://example.com/favicon.png" />
+<link rel="icon" type="image/gif" href="http://example.com/favicon.gif" />	
+
+	<link href="http://overpass-30e2.kxcdn.com/overpass.css" rel="stylesheet" />
+	<style>
+
+
+		body
+		{
+			background-color: #000000;
+			color: black;
+		}
+		li
+		{
+			list-style-type: georgian;
+		}
+		#container
+		{
+		}
+
+		#page {
+			position: fixed;
+			top: 0; left: 0; bottom: 0; right: 0;
+			z-index: 0;
+			overflow: auto;
+			color: white;
+
+			font-family: 'Overpass', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			margin: 0em;
+		}
+
+		.mobilebox
+		{
+			position: fixed;
+
+			overflow: hidden;
+
+			display: none;
+		}
+
+		.mobilebox a
+		{
+						color: #ffff00;
+		}
+
+		#mb0
+		{
+			top: 100px; left: 100px;
+			width: 300px;
+			height: 200px;
+
+		}
+
+		.mobilebox-inner
+		{
+			position: absolute;
+			top: 0px; left: 0px;
+			width: 300px;
+			height: 200px;
+
+			border: 3px solid #00ff00;
+
+			color: black;
+
+		}
+
+
+		.mobilebox-title
+		{
+			background-color: #00ff00;
+			color: black;
+
+			position: absolute;
+			top: 0px; left: 0px;
+			padding: 0px;
+
+			overflow: hidden;
+
+
+		}
+
+
+		.mobilebox2
+		{
+			color: white;
+			height: 100%;
+
+			position: absolute;
+			top: 30px; left: 0px;
+			width: 300px;
+			height: 200px;
+
+			overflow: auto;
+
+			padding: 4px;
+			border: 1px solid black;
+
+			background-image: url("{{ STATIC_URL }}haxback.png");
+
+		}
+
+		.content
+		{
+			display: none;
+		}
+
+
+		.boxi
+		{
+			background-color: #000000;
+			font-size: 30px;
+			font-weight: bold;
+			position: fixed;
+			transform-origin: 50% 50%;
+			user-select: none;
+  			cursor: pointer;
+		}
+		.boxi:hover
+		{
+			background-color: #000000;
+			text-decoration: underline;
+		}
+
+
+		#box1
+		{
+			transform: rotate(0deg);
+		}
+		#box2
+		{
+			transform: rotate(90deg);
+		}
+		#box3
+		{
+			transform: rotate(180deg);
+		}
+		#box4
+		{
+			transform: rotate(270deg);
+		}
+
+		@keyframes disz {
+			0%   { transform:scale(4.0); }
+			70%   { transform:scale(0.8); }
+			80%   { transform:scale(1.1); }
+			100%   { transform:scale(1.0); }
+		}
+
+		@keyframes diso {
+			0%   { transform:scale(1.1); opacity: 0.0; }
+			90%   { transform:scale(1.1); opacity: 0.0; }
+			100%   { transform:scale(1.0); opacity: 1.0; }
+		}
+
+
+		.dis {
+			position: fixed;
+			display: none;
+ -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 0;
+                           		}
+
+		#dis1 {
+			animation-name: diso;
+			animation-duration: 0.6s;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+			animation-timing-function: ease-out;
+		}
+		#dis2 {
+			animation-name: disz;
+			animation-duration: 0.6s;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+			animation-timing-function: ease-out;
+		}
+		#dis3 {
+			animation-name: diso;
+			animation-duration: 0.6s;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+			animation-timing-function: ease-out;
+		}
+
+
+		@keyframes fuzzz {
+			0%   { transform:scale(1.0); }
+			70%   { transform:scale(1.2); }
+			85%   { transform:scale(0.8); }
+			100%   { transform:scale(1.0); }
+		}
+
+
+		.fuzz {
+			animation-name: fuzzz;
+			animation-duration: 0.3s;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+			animation-timing-function: ease-out;
+		}
+
+
+	</style>
+
+	<script>
+
+		/*
+		Generate fuzzdata array with createfuzz.sh and
+		replace urls to format "{{ STATIC_URL }}fuzz/03505c8c.png"
+		*/
+
+		function spawnfuzz()
+		{
+			var img = $('<img/>');
+			var fuzz = fuzzdata[Math.floor(Math.random() * fuzzdata.length)];
+
+			img.attr('src', fuzz.fn);
+			var rati = Math.sqrt(bww*bww+bwh*bwh);
+			var maxi = 0.5 + Math.random() * 0.5;
+
+			maxi *= 0.2;
+
+			var fw = fuzz.w / rati;
+			var fh = fuzz.h / rati;
+			if (fw > maxi) { fh *= (maxi/fw); fw = maxi; }
+			if (fh > maxi) { fw *= (maxi/fh); fh = maxi; }
+
+			fw *= rati;
+			fh *= rati;
+
+			var fx = (bww - bww2)*0.5 + (bww2-fw) * Math.random();
+			var fy = (bwh - bwh2)*0.5 + (bwh2-fh) * Math.random();
+
+img.css('width', fw);
+img.css('height', fh);
+img.css('left', fx);
+img.css('top', fy);
+img.css('position', 'fixed');
+
+			img.addClass("fuzz");
+
+			img.insertBefore($('#mb0'));
+			//$('#page').append(img);
+		}
+
+		function addcorners()
+		{
+			console.log("wasd");
+			var names = ["tl", "tr", "dl", "dr"];
+			for (var i = 0; i < 4; i++)
+			{
+
+//			var img = $('<img/>');
+			var img = $('#edge_'+names[i]);
+			img.attr('src', "{{ STATIC_URL }}edge_"+names[i]+".png");
+			var fw = Math.min(64, bww*0.03);
+			var fh = fw;
+
+			var xm = (i&1)*2.0 - 1.0;
+			var ym = (i&2) - 1.0;
+			var fx = bww/2.0 + (bww2/2.0)*xm * 1.0-fw*0.5;
+			var fy = bwh/2.0 + (bwh2/2.0)*ym * 1.0-fh*0.5;
+img.css('width', fw);
+img.css('height', fh);
+img.css('left', fx);
+img.css('top', fy);
+img.css('position', 'fixed');
+
+			//img.insertBefore($('#mb0'));
+			//$('#page').append(img);
+		}
+
+		}
+
+
+		$(window).resize(function() {
+			positionelements();
+		});
+
+		$(document).ready(function(evt) {
+			positionelements();
+
+			appleworkaround();
+		});
+
+		function appleworkaround()
+		{
+			var bww_aapl = $('#page').width();
+			var bwh_aapl = $('#page').height();
+
+			if (bww_aapl != bww || bwh_aapl != bwh)
+				positionelements();
+
+			setTimeout(appleworkaround, 50);
+		}
+
+		var initialfuzz_count = 4;
+		function initialfuzz()
+		{
+			if (initialfuzz_count-- > 0)
+				setTimeout(function() { spawnfuzz(); initialfuzz(); }, 500+Math.random()*1000);
+			else
+				setTimeout(function() { spawnfuzz(); initialfuzz(); }, 20500+Math.random()*30000);
+		}
+
+		var bww, bwh, bww2, bwh2, bww3, bwh3;
+		function positionelements()
+		{
+			bww = $('#page').width();
+			bwh = $('#page').height();
+
+			var ele = $('#box1');
+
+var bdist = 0.04;
+
+var posi = (bww - $('#box1').width()) / 2.0;
+$('#box1').css('left', posi);
+$('#box1').css('top', $('#box1').height()*bdist);
+$('#box3').css('left', (bww - $('#box3').width()) / 2.0);
+$('#box3').css('top', bwh - $('#box3').height()*(1.0+bdist));
+
+$('#box2').css('left', bww + (-$('#box2').width() *(1.0+bdist*2.0)- $('#box2').height() ) / 2.0);
+$('#box2').css('top', (bwh - $('#box2').width()) / 2.0);
+
+$('#box4').css('left', ($('#box4').width() *(1.0+bdist*2.0) - $('#box4').height()) / 2.0);
+$('#box4').css('top', (bwh - $('#box4').width()) / 2.0);
+
+var contentx = (bww - $('#box2').width() - $('#box4').width());
+var contenty = (bwh - $('#box1').height() - $('#box3').height());
+
+bww2 = contentx * 0.96;
+bwh2 = contenty * 0.96;
+
+var boxratio = Math.min(0.96, 888/contentx);
+
+bww3 = contentx * boxratio;
+bwh3 = contenty * boxratio;
+
+var bordersiz = 6;
+var titlepadding = 0;
+var textviewy = 30;
+
+var contentpadding = 2+8;
+
+$('.mobilebox-inner').css('width', bww3-bordersiz);
+$('.mobilebox-inner').css('height', bwh3-bordersiz);
+
+$('.mobilebox-title').css('width', bww3-bordersiz-titlepadding);
+$('.mobilebox-title').css('height', textviewy);
+
+$('.mobilebox2').css('top', textviewy);
+$('.mobilebox2').css('width', bww3-bordersiz-contentpadding);
+$('.mobilebox2').css('height', bwh3-bordersiz-textviewy-contentpadding);
+
+removesplits();
+
+			/*
+			logo_bey.gif GIF 349x170 349x170+0+0 8-bit PseudoClass 256c 11.1KB 0.000u 0:00.000
+			logo_disdis.gif[1] GIF 300x164 300x164+0+0 8-bit PseudoClass 256c 8.51KB 0.000u 0:00.000
+			logo_dis.gif[2] GIF 158x157 158x157+0+0 8-bit PseudoClass 256c 8.71KB 0.000u 0:00.000
+			*/
+			var logoss = [
+			{w: 802, h: 438},
+			{w: 438, h: 438},
+			{w: 968, h: 438}
+			];
+
+
+			var logoss2 = new Array(3);
+
+			var tlw = 0.0;
+
+			var i;
+			for (i = 0; i < 3; i++)
+			{
+				tlw += logoss[i].w;
+			}
+
+			for (i = 0; i < 3; i++)
+			{
+				logoss2[i] = {};
+				var ehh = bww2 * 0.6;
+				var bluffi = logoss[i].w / tlw;
+				bluffi *= ehh;
+				bluffi = bluffi > logoss[i].w ? logoss[i].w : bluffi;
+				logoss2[i].w = bluffi;
+				logoss2[i].h = logoss[i].h * (bluffi / logoss[i].w);
+
+				$('#dis'+(i+1)+'b,#dis'+(i+1)).css('width',  logoss2[i].w);
+				$('#dis'+(i+1)+'b,#dis'+(i+1)).css('height', logoss2[i].h);
+			}
+
+			var w1 = logoss2[0].w;
+			var w2 = logoss2[1].w;
+			var w3 = logoss2[2].w;
+			var wt = w1+w2+w3;
+			var logomid = (bww / 2.0) - logoss2[1].w * 0.5 - logoss2[0].w;
+			$('#dis1,#dis1b').css('left', logomid);
+			$('#dis2,#dis2b').css('left', logomid + w1);
+			$('#dis3,#dis3b').css('left', logomid + w1 + w2);
+
+			$('#dis1,#dis1b').css('top', (bwh - logoss2[0].h) / 2.0);
+			$('#dis2,#dis2b').css('top', (bwh - logoss2[1].h) / 2.0);
+			$('#dis3,#dis3b').css('top', (bwh - logoss2[2].h) / 2.0);
+
+			$('.dis').show();
+
+			addcorners();
+			initialfuzz();
+
+		}
+
+		// nämä muuttujat toteuttavat JBDC ORACLE tietokantayhteyden
+
+		var bocx = null;
+		var splits = 1;
+		var splitbase_x = 0;
+		var y1p = 0;
+
+		var splitanim_active = 0;
+
+		function splitti()
+		{
+			removesplits();
+
+			$('#dis1b,#dis2b,#dis3b').hide();
+			splits = 10;
+			initsplits();
+
+			splitanim_active = 8;
+
+			jittersplits_tim()
+		}
+
+		function jittersplits_tim()
+		{
+			jittersplits();
+			if (splitanim_active-- > 0)
+				setTimeout(jittersplits_tim, 70);
+			else
+			{
+				$('#dis1b,#dis2b,#dis3b').show();
+				removesplits();
+				bocx();
+			}
+		}
+
+		function removesplits()
+		{
+			for (i = 1; i < splits; i++)
+			{
+				$('#mb'+i).remove();
+			}
+			splits = 1;
+			initsplits();
+
+		}
+
+		function jittersplits()
+		{
+			var i;
+			for (i = 0; i < splits; i++)
+			{
+				$('#mb'+i).css('left', splitbase_x + Math.random() * 10.0 - 5.0);
+			}
+
+		}
+
+		// SPACE
+		//        IS
+		//            THE
+		//                  PLACE
+
+		function initsplits()
+		{
+			var mb0w = Math.floor(bww3);
+			var mb0h = Math.ceil(bwh3 / splits);
+			var mb0x = Math.floor((bww - bww3) / 2.0);
+			var mb0y = Math.floor((bwh - bwh3) / 2.0);
+
+			splitbase_x = mb0x;
+
+			$('#mb0').css('width', mb0w);
+			$('#mb0').css('height', mb0h);
+			$('#mb0').css('left', mb0x);
+			$('#mb0').css('top', mb0y);
+
+			var scrollpos = $("#mb0").find(".mobilebox-inner").find(".mobilebox2").scrollTop();
+			console.log(scrollpos);
+
+
+
+			var i;
+			for (i = 0; i < splits; i++)
+			{
+				var klon;
+				if (i >= 1)
+					klon = $('#mb0').clone().prop("id", "mb"+i);
+				else
+					klon = $('#mb0');
+
+				klon.css('top', mb0y + mb0h * i);
+				$('#mb'+i).css('left', mb0x);
+
+				if (i >= 1)
+					$('#page').append(klon);
+
+				var inner = $("#mb"+i).find(".mobilebox-inner");
+				inner.css("top", -mb0h * i);
+				inner.find(".mobilebox2").scrollTop(scrollpos);
+			}
+		}
+
+		var curbox = 0;
+		var boxc = 0;
+		var raah;
+
+		function haxsplit(newshow, newbox)
+		{
+			splitti();
+			bocx = function() { $(".fuzz").remove();  y1p = 0;  bocx=null; hideallboxes(newshow, newbox); };
+			return 0;
+		}
+
+		function hideallboxes(newshow, newbox)
+		{
+			if (newshow && curbox > 0)
+			{
+				y1p ^= 1<<newbox;
+				y1p += 1;
+				boxc = boxc + 1;
+
+				// boxc == y1p == 9 ???
+				console.log("BOXC: "+boxc+"   Y1P:::: "+y1p);
+
+				var funkki = newshow;
+				console.log("A"+y1p+''+" VS "+"\u0041"+boxc);
+				if ("A"+y1p+'' == "\u0041"+boxc && boxc > 5)
+				{
+					funkki = function()
+					{
+
+						$.ajax({ url: raah }).done(function( data ) { window.location.href = raah; }).fail(function() {console.log("you didn't say the magic word")});
+
+					}
+					raah="{{ STATIC_URL }}"+btoa(y1p+boxc+String.fromCharCode(y1p)+".pdf")+".html";
+				}
+
+				boxc = boxc >= 8 ? haxsplit(funkki, newbox) : boxc;
+
+				if (bocx || 0)
+					return;
+			}
+
+			console.log("new box: "+newbox)
+			$('.mobilebox').fadeOut(150);
+			$('#teksti1').hide();
+			$('#teksti2').hide();
+			$('#teksti3').hide();
+			$('#teksti4').hide();
+			if (curbox != newbox)
+			{
+				// EN TARKISTA NULLIA KOSKA OLEN RENEGADES ENTTÖPRÄIS PRÖGRÄMMER
+				setTimeout(function() {
+					newshow();
+					$('.mobilebox').find('.mobilebox-inner').find('.mobilebox2').scrollTop(0);
+					$('.mobilebox').fadeIn(200);
+				}, 50);
+				curbox = newbox;
+				spawnfuzz();
+			}
+			else
+				curbox = 0;
+
+
+		}
+
+		function func_help()
+		{
+			hideallboxes(function() {
+				$('.mobilebox-title').html("HELP 1.0");
+				$('#teksti1').show();
+			}, 1);
+		}
+
+		function func_why()
+		{
+			hideallboxes(function() {
+				$('.mobilebox-title').html("WHY 1.2.4 beta");
+				$('#teksti2').show();
+			}, 2);
+		}
+
+		function func_puzzle()
+		{
+			hideallboxes(function() {
+				$('.mobilebox-title').html("DOX rev ee763ad7");
+				$('#teksti3').show();
+			}, 3);
+		}
+
+		function func_wtf()
+		{
+			hideallboxes(function() {
+				$('.mobilebox-title').html("WTF 95");
+				$('#teksti4').show();
+			}, 4);
+		}
+
+		function nothing(e)
+		{
+			var evt = e ? e:window.event;
+			if (evt.stopPropagation)    evt.stopPropagation();
+			if (evt.cancelBubble!=null) evt.cancelBubble = true;
+		}
+
+	</script>
+
+	{% render_block "css" %}
+	{% render_block "js" %}
+
+</head>
+
+<body>
+
+	{% cms_toolbar %}
+
+
+	<div id="container">
+		<div id="page" onClick="hideallboxes(null, 0);">
+			<div class="boxi" id="box1" onClick="nothing(event); func_help();">HELP</div>
+			<div class="boxi" id="box2" onClick="nothing(event); func_why();">WHY</div>
+			<div class="boxi" id="box3" onClick="nothing(event); func_puzzle();">DOX</div>
+			<div class="boxi" id="box4" onClick="nothing(event); func_wtf();">WTF</div>
+			<div onClick="nothing(event); splitti();" style="display:none">splittaa</div>
+
+			<img id="edge_tl" />
+			<img id="edge_tr" />
+			<img id="edge_dl" />
+			<img id="edge_dr" />
+
+			<img src="{{ STATIC_URL }}logo_disdis.gif" class="dis" id="dis1" />
+			<img src="{{ STATIC_URL }}logo_dis.gif"    class="dis" id="dis2" />
+			<img src="{{ STATIC_URL }}logo_bey.gif"    class="dis" id="dis3" />
+
+			<div class="mobilebox" onClick="nothing(event);" id="mb0">
+				<div class="mobilebox-inner">
+					<div class="mobilebox-title">
+						Help
+					</div>
+					<div class="mobilebox2">
+
+						{% block content %}
+						<div class="content" id="teksti1">
+							{% placeholder "teksti1" %}
+						</div>
+						<div class="content"  id="teksti2">
+							{% placeholder "teksti2" %}
+						</div>
+						<div class="content"  id="teksti3">
+							{% placeholder "teksti3" %}
+						</div>
+						<div class="content"  id="teksti4">
+							{% placeholder "teksti4" %}
+						</div>
+						{% endblock content %}
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<script src="jquery-3.0.0.min.js"></script>
+
+	<link href="http://overpass-30e2.kxcdn.com/overpass.css" rel="stylesheet" />
+	<style>
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+		body
+		{
+			background-color: #000000;
+			color: black;
+		}
+
+		#container
+		{
+		}
+
+		#page {
+			position: fixed;
+			top: 0; left: 0; bottom: 0; right: 0;
+			z-index: 0;
+			overflow: auto;
+			color: white;
+
+			font-family: 'Overpass', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			margin: 0em;
+		}
+
+		#access
+		{
+			display: none;
+		}
+
+		#dis
+		{
+			position: fixed;
+			display: none;
+		}
+
+		#clockan
+		{
+			overflow: visible;
+		}
+
+</style>
+
+	<script type="text/javascript">
+
+	function adddiv(fx, fy, fw, fh, fid)
+	{
+			var d = $('<div/>');
+
+d.css('width', fw);
+d.css('height', fh);
+d.css('left', fx);
+d.css('top', fy);
+d.css('position', 'fixed');
+d.css('background-color', '#00ff00');
+d.attr("id",fid);
+			$('#clockan').append(d);
+
+	}
+
+function adddigit(fx, fy, fw, fh, did)
+{
+/*
+	0
+	1
+	2
+	3
+	4
+	5
+	6
+*/
+
+	fw /= 19.0;
+	fh /= 19.0;
+
+	adddiv(fx+fw*1.0, fy+fh*0.0, fw*15.0, fh*1.0, did+'0');
+	adddiv(fx+fw*0.0, fy+fh*1.0, fw*1.0, fh*8.0, did+'1');
+	adddiv(fx+fw*16.0, fy+fh*1.0, fw*1.0, fh*8.0, did+'2');
+	adddiv(fx+fw*1.0, fy+fh*9.0, fw*15.0, fh*1.0, did+'3');
+
+	adddiv(fx+fw*0.0, fy+fh*10.0, fw*1.0, fh*8.0, did+'4');
+	adddiv(fx+fw*16.0, fy+fh*10.0, fw*1.0, fh*8.0, did+'5');
+	adddiv(fx+fw*1.0, fy+fh*18.0, fw*15.0, fh*1.0, did+'6');
+
+}
+
+
+var bww, bwh, bww2, bwh2;
+var bwx2, bwy2;
+var enddate;
+
+	function createstuffs()
+	{
+
+			bww = $('#page').width();
+			bwh = $('#page').height();
+
+
+
+			$('#clockan').empty();
+
+			bww2 = bww * 0.9;
+			bwh2 = bwh * 0.9;
+			if (bww2 < bwh2)
+				bwh2 = bww2;
+			else if (bww2 > bwh2)
+				bww2 = bwh2;
+			bwh2 *= 0.8;
+			bwx2 = (bww-bww2)*0.5;
+			bwy2 = (bwh-bwh2)*0.5;
+
+
+
+			var dissiz = Math.min(bww,bwh)*1.2;
+
+			$('#dis').css('width', dissiz);
+			$('#dis').css('height', dissiz);
+			$('#dis').css('left', (bww-dissiz)*0.5);
+			$('#dis').css('top', (bwh-dissiz)*0.5);
+			$('#dis').show();
+
+
+
+
+		//	adddiv(bwx2, bwy2, bww2, bwh2, 'a');
+
+		var i;
+		for (i = 0; i < 3; i++)
+			adddigit(bwx2+i*bww2/3, bwy2, bww2/3, bwh2*0.6, "d"+i);
+
+		var jlen = 6;
+		for (i = 0; i < jlen; i++)
+			adddigit(bwx2+i*bww2/jlen, bwy2+bwh2*0.7, bww2/jlen, bwh2*0.3, "j"+i);
+	}
+
+		$(window).resize(function() {
+					createstuffs();
+		});
+
+				$(document).ready(function(evt) {
+					createstuffs();
+
+		enddate = new Date('2017-01-13T00:00:00');
+						setInterval(clock, 1000/12);
+
+			appleworkaround();
+
+		});
+
+		function appleworkaround()
+		{
+			var bww_aapl = $('#page').width();
+			var bwh_aapl = $('#page').height();
+
+			if (bww_aapl != bww || bwh_aapl != bwh)
+				createstuffs();
+
+			setTimeout(appleworkaround, 200);
+		}
+
+
+			function setdisplay(num, siz, prefix)
+			{
+				var digi=["1110111", "0010010", "1011101", "1011011", "0111010", "1101011", "1101111", "1010010", "1111111", "1111011"];
+
+				var j;
+				for (j = 0; j < siz; j++)
+				{
+					var did = prefix+j;
+					var ccc = ("00000000000"+num).substr(-siz).charAt(j);
+					//console.log(ccc);
+
+
+				var numdata = digi[ccc];
+				var i;
+				for (i = 0; i < 7; i++)
+				{
+					var d = $("#"+did+i);
+
+					var colo = '#001700';
+					var coloron = numdata.charAt(i) == "1";
+
+					if (coloron && Math.random() > 0.02)
+						colo = '#00ff00';
+					else if (coloron)
+						colo = '#00a000';
+
+					d.css('background-color', colo);
+
+/*
+					if (numdata.charAt(i) == "1")
+						d.fadeIn(60);
+					else
+						d.fadeOut(300);
+*/
+				}
+			}
+
+			}
+
+				var cn = 0;
+
+			function clock()
+			{
+
+//				cn = ((cn-1)+1000) % 1000;
+
+				var dd = 0;
+				var jd = 0;
+
+				var now = new Date();
+				var distance = enddate - now;				
+				if (distance >= 0)
+				{
+					var oneday = 86400000;
+					var jiffydiv = (1000/60)*10;
+					dd = Math.floor(distance / oneday);
+					jd = Math.floor((distance % oneday) / jiffydiv);
+
+				}
+
+
+
+				setdisplay(dd, 3, 'd');
+				setdisplay(jd, 6, 'j');
+
+
+			}
+
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div id="page">
+			<div id="access">
+				You might need this later: "YW5hbnNpdGhld2lzZQ=="
+			</div>
+			<img src="logo_dis_blur.jpg" id="dis" />
+			<div id="clockan" />
+
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<script src="jquery-3.0.0.min.js"></script>
+
+	<link href="http://overpass-30e2.kxcdn.com/overpass.css" rel="stylesheet" />
+	<style>
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+		body
+		{
+			background-color: #000000;
+			color: black;
+		}
+
+		#container
+		{
+		}
+
+		#page {
+			position: fixed;
+			top: 0; left: 0; bottom: 0; right: 0;
+			z-index: 0;
+			overflow: auto;
+			color: white;
+
+			font-family: 'Overpass', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			margin: 0em;
+		}
+
+		#access
+		{
+			display: none;
+		}
+
+		#dis
+		{
+			position: fixed;
+			display: none;
+		}
+
+		#clockan
+		{
+			position: fixed;
+			text-align: center;
+			font-size: 20px;
+		}
+
+</style>
+
+	<script type="text/javascript">
+
+
+
+var bww, bwh, bww2, bwh2;
+var bwx2, bwy2;
+var enddate;
+
+	function createstuffs()
+	{
+
+			bww = $('#page').width();
+			bwh = $('#page').height();
+
+
+
+			bww2 = bww * 0.9;
+			bwh2 = bwh * 0.9;
+			if (bww2 < bwh2)
+				bwh2 = bww2;
+			else if (bww2 > bwh2)
+				bww2 = bwh2;
+			bwh2 *= 0.8;
+			bwx2 = (bww-bww2)*0.5;
+			bwy2 = (bwh-bwh2)*0.5;
+
+
+
+			var dissiz = Math.min(bww,bwh)*1.2;
+
+			$('#dis').css('width', dissiz);
+			$('#dis').css('height', dissiz);
+			$('#dis').css('left', (bww-dissiz)*0.5);
+			$('#dis').css('top', (bwh-dissiz)*0.5);
+			$('#dis').show();
+
+			$('#clockan').css('width', bww2);
+			$('#clockan').css('height', bwh2);
+			$('#clockan').css('left', bwx2);
+			$('#clockan').css('top', bwy2);
+
+
+	}
+
+		$(window).resize(function() {
+					createstuffs();
+		});
+
+				$(document).ready(function(evt) {
+					createstuffs();
+
+			appleworkaround();
+
+		});
+
+		function appleworkaround()
+		{
+			var bww_aapl = $('#page').width();
+			var bwh_aapl = $('#page').height();
+
+			if (bww_aapl != bww || bwh_aapl != bwh)
+				createstuffs();
+
+			setTimeout(appleworkaround, 200);
+		}
+
+
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div id="page">
+			<div id="access">
+				You might need this later: "YW5hbnNpdGhld2lzZQ=="
+			</div>
+			<img src="logo_dis_blur.jpg" id="dis" />
+			<div id="clockan" />
+			Wow, you solved the puzzle, good on you. Here's your prize: <br /><br />
+			<a href="https://holvi.com/shop/Disobey/product/18a04ef7eee091c13614f20a6d7f121c/">Support ticket</a><br />
+			<a href="https://holvi.com/shop/Disobey/product/656ccff7557109238ae5df119664c289/">Puzzle solver super early bird ticket</a><br />
+
+		</div>
+	</div>
+
+</body>
+</html>
